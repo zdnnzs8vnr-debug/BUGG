@@ -1,0 +1,330 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>PAGAMENTO SICURO — GUSTAVOEURO</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#05060d;--fg:#eef0f8;--surface:#0b0d17;--panel:#12141f;--line:#1d2130;
+  --au:#ffb020;--bl:#3d7bff;--tl:#14e0b0;--mg:#ff3d9a;--rs:#ff5c5c;
+  --mono:'JetBrains Mono',ui-monospace,SFMono-Regular,monospace;
+  --sans:'Space Grotesk',system-ui,-apple-system,sans-serif;--r:14px;
+}
+body{
+  background:var(--bg);color:var(--fg);font-family:var(--sans);
+  min-height:100vh;padding:24px 16px 60px;
+  background-image:
+    linear-gradient(rgba(61,123,255,.045) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(61,123,255,.045) 1px,transparent 1px),
+    radial-gradient(ellipse at 50% 0%,rgba(255,176,32,.09),transparent 62%);
+  background-size:44px 44px,44px 44px,100% 100%;
+}
+.wrap{max-width:760px;margin:0 auto}
+header{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:26px;flex-wrap:wrap}
+.brand{font-weight:700;letter-spacing:.14em;font-size:15px;color:var(--au);font-family:var(--mono)}
+.brand small{display:block;font-size:9px;letter-spacing:.28em;color:var(--fg);opacity:.45;margin-top:4px;font-weight:400}
+.back{font-family:var(--mono);font-size:11px;letter-spacing:.1em;color:var(--fg);opacity:.6;text-decoration:none;
+  border:1px solid var(--line);padding:9px 14px;border-radius:10px;background:var(--surface);transition:.18s}
+.back:hover{opacity:1;border-color:var(--au);color:var(--au)}
+.card{background:linear-gradient(180deg,var(--surface),var(--panel));border:1px solid var(--line);
+  border-radius:var(--r);padding:26px;position:relative;margin-bottom:18px}
+.card::before,.card::after{content:'';position:absolute;width:13px;height:13px;border:2px solid var(--au);opacity:.75}
+.card::before{top:-1px;left:-1px;border-right:0;border-bottom:0;border-radius:var(--r) 0 0 0}
+.card::after{bottom:-1px;right:-1px;border-left:0;border-top:0;border-radius:0 0 var(--r) 0}
+h1{font-size:19px;letter-spacing:.06em;margin-bottom:4px}
+.sub{font-family:var(--mono);font-size:10px;letter-spacing:.2em;color:var(--au);opacity:.85;margin-bottom:20px;text-transform:uppercase}
+.row{display:flex;justify-content:space-between;gap:14px;padding:11px 0;border-bottom:1px dashed rgba(29,33,48,.9);font-size:14px}
+.row:last-of-type{border-bottom:0}
+.row .k{opacity:.72}
+.row .v{font-family:var(--mono);white-space:nowrap}
+.row.big{font-size:17px;font-weight:700;padding-top:16px;margin-top:8px;border-top:1px solid var(--line)}
+.row.big .v{color:var(--au)}
+label{display:block;font-family:var(--mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;
+  opacity:.7;margin:20px 0 8px}
+input[type=email]{width:100%;background:var(--bg);border:1px solid var(--line);color:var(--fg);
+  padding:14px 15px;border-radius:10px;font-family:var(--mono);font-size:14px;outline:none;transition:.18s}
+input:focus{border-color:var(--au);box-shadow:0 0 0 3px rgba(255,176,32,.12)}
+.ships{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:6px}
+.ship{background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:13px;cursor:pointer;transition:.18s}
+.ship.on{border-color:var(--au);background:rgba(255,176,32,.07)}
+.ship b{display:block;font-size:12px;letter-spacing:.06em}
+.ship span{font-family:var(--mono);font-size:10px;opacity:.6}
+.pay{width:100%;margin-top:24px;padding:17px;border-radius:12px;border:0;cursor:pointer;
+  background:linear-gradient(135deg,#ffb020,#ff8a00);color:#0a0a0a;font-weight:700;font-size:14px;
+  letter-spacing:.14em;font-family:var(--mono);transition:.18s}
+.pay:hover{transform:translateY(-1px);box-shadow:0 10px 30px rgba(255,176,32,.25)}
+.pay:disabled{opacity:.5;cursor:wait;transform:none;box-shadow:none}
+.marks{display:flex;gap:8px;flex-wrap:wrap;margin-top:16px}
+.mark{font-family:var(--mono);font-size:9.5px;letter-spacing:.1em;border:1px solid var(--line);
+  padding:6px 10px;border-radius:6px;opacity:.75;background:var(--bg)}
+.mark.kyc{border-color:var(--tl);color:var(--tl);opacity:1}
+.note{font-size:11.5px;line-height:1.7;opacity:.6;margin-top:16px;border-left:2px solid var(--bl);padding-left:12px}
+.spin{width:34px;height:34px;border:3px solid var(--line);border-top-color:var(--au);border-radius:50%;
+  margin:0 auto 16px;animation:s .8s linear infinite}
+@keyframes s{to{transform:rotate(360deg)}}
+.center{text-align:center}
+.err{background:rgba(255,92,92,.1);border:1px solid var(--rs);color:#ffb3b3;padding:12px 14px;
+  border-radius:10px;font-size:12.5px;margin-top:14px;line-height:1.6}
+.ok{color:var(--tl)}
+.code{font-family:var(--mono);font-size:20px;letter-spacing:.12em;color:var(--au);margin:10px 0}
+.ghost{display:inline-block;margin-top:18px;padding:13px 22px;border-radius:10px;border:1px solid var(--au);
+  color:var(--au);text-decoration:none;font-family:var(--mono);font-size:11px;letter-spacing:.12em}
+footer{text-align:center;font-family:var(--mono);font-size:9.5px;letter-spacing:.16em;opacity:.35;margin-top:34px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="brand">GUSTAVOEURO<small>DAL DARK WEB AL TUO PORTAFOGLIO</small></div>
+    <a class="back" href="./">&#8592; TORNA AL SITO</a>
+  </header>
+  <div id="app"></div>
+  <footer>PAGAMENTO ELABORATO DA PAYGATE.TO &middot; NESSUN ACCOUNT &middot; NESSUN KYC</footer>
+</div>
+
+<script>
+(function(){
+'use strict';
+
+/* ===================== CONFIGURAZIONE ===================== */
+const CFG = {
+  WALLET: '0x5f85B1B25dc4F4496C3a3242B74414B10a5aE8B3',  // USDC su Polygon (Exodus)
+  CURRENCY: 'EUR',          // 'EUR' = prezzi esatti, nessuna conversione
+  PASS_FEE: false,          // true = la commissione la paga il cliente
+  FEE_PCT: 4.5,             // % commissione (calibrala dal tuo test)
+  API: 'https://api.paygate.to',
+  CHECKOUT: 'https://checkout.paygate.to',
+  PROXY: '',                // se la fetch viene bloccata dal CORS, metti qui un proxy
+  TG: 'https://t.me/gustavoeuro'
+};
+/* ========================================================== */
+
+const PRODUCTS = [
+  {id:'e20_30', label:'20 EUR', pcs:30,  price:240},
+  {id:'e20_50', label:'20 EUR', pcs:50,  price:375},
+  {id:'e20_75', label:'20 EUR', pcs:75,  price:525},
+  {id:'e20_100',label:'20 EUR', pcs:100, price:650},
+  {id:'e20_150',label:'20 EUR', pcs:150, price:870},
+  {id:'e20_200',label:'20 EUR', pcs:200, price:1000},
+  {id:'e50_30', label:'50 EUR', pcs:30,  price:360},
+  {id:'e50_50', label:'50 EUR', pcs:50,  price:550},
+  {id:'e50_75', label:'50 EUR', pcs:75,  price:712.5},
+  {id:'e50_100',label:'50 EUR', pcs:100, price:850},
+  {id:'e50_150',label:'50 EUR', pcs:150, price:1170},
+  {id:'e50_200',label:'50 EUR', pcs:200, price:1400}
+];
+const PAYPAL = [
+  {id:'p1',code:'ASE',     pay:120,get:360},
+  {id:'p2',code:'ADVANCED',pay:150,get:680},
+  {id:'p3',code:'VIP',     pay:180,get:930},
+  {id:'p4',code:'PREMIUM', pay:220,get:1570},
+  {id:'p5',code:'ELITE',   pay:280,get:2140},
+  {id:'p6',code:'MASTER',  pay:320,get:3400},
+  {id:'p7',code:'TITAN',   pay:380,get:4800},
+  {id:'p8',code:'LEGEND',  pay:470,get:5800}
+];
+const SHIP = {priv:{price:20,label:'Corriere privato',hint:'Solo Italia &middot; 12/48h'},
+              locker:{price:0,label:'Locker InPost',hint:'Gratis'}};
+
+const eur = n => '€' + n.toFixed(2).replace('.',',');
+const $ = s => document.querySelector(s);
+const Q = new URLSearchParams(location.search);
+const base = () => (CFG.PROXY || CFG.API);
+
+let S = {items:[], ship:'locker', email:'', busy:false, err:'', phase:'form'};
+
+function buildItems(){
+  const out = [];
+  const sku = Q.get('sku');
+  if (sku){ const p = PRODUCTS.find(x=>x.id===sku); if (p) out.push({kind:'note',label:p.label+' &times; '+p.pcs+' pezzi',price:p.price}); }
+  const pp = Q.get('pp');
+  if (pp){ const p = PAYPAL.find(x=>x.id===pp); if (p) out.push({kind:'pp',label:'PAYPAL '+p.code+' &middot; ricevi '+eur(p.get),price:p.pay}); }
+  if (!out.length && Q.get('amount')){
+    out.push({kind:Q.get('kind')||'note', label:Q.get('label')||'Ordine', price:parseFloat(Q.get('amount'))||0});
+  }
+  if (!out.length) out.push({kind:'note',label:'Ordine',price:0});
+  return out;
+}
+
+function totals(){
+  const sub = S.items.reduce((a,b)=>a+b.price,0);
+  const physical = S.items.some(i=>i.kind==='note');
+  const ship = physical ? SHIP[S.ship].price : 0;
+  const fee = CFG.PASS_FEE ? (sub+ship)*CFG.FEE_PCT/100 : 0;
+  return {sub, physical, ship, fee, total: sub+ship+fee};
+}
+
+function code(){ return 'GST-CARD-' + Math.floor(1000+Math.random()*9000); }
+
+function render(){
+  const app = $('#app');
+
+  if (S.phase === 'wait'){
+    app.innerHTML = `
+      <div class="card center">
+        <div class="spin"></div>
+        <h1>IN ATTESA DEL PAGAMENTO</h1>
+        <div class="sub">Controllo automatico ogni 6 secondi</div>
+        <div class="code">${S.code}</div>
+        <p style="font-size:13px;line-height:1.8;opacity:.75">
+          Se hai completato il pagamento su PayGate, resta su questa pagina:<br/>
+          l'accredito in USDC &egrave; immediato e la conferma appare da sola.
+        </p>
+        <p class="note" style="text-align:left">
+          Sei tornato qui con il tasto <b>Indietro</b>? Perfetto, &egrave; la procedura corretta.
+          Se PayGate &egrave; ancora aperto, completa prima il pagamento.
+        </p>
+        <a class="ghost" href="${CFG.TG}" target="_blank" rel="noopener">ASSISTENZA TELEGRAM</a>
+      </div>`;
+    return;
+  }
+
+  if (S.phase === 'done'){
+    app.innerHTML = `
+      <div class="card center">
+        <h1 class="ok">PAGAMENTO CONFERMATO</h1>
+        <div class="sub">Ordine registrato</div>
+        <div class="code">${S.code}</div>
+        <p style="font-size:13.5px;line-height:1.8;opacity:.8">
+          Ricevuto <b style="color:var(--au)">${eur(S.paid)}</b> &middot; convertito e inviato<br/>
+          in USDC (Polygon) sul wallet del venditore.
+        </p>
+        <a class="ghost" href="./">TORNA AL SITO</a>
+      </div>`;
+    return;
+  }
+
+  const t = totals();
+  app.innerHTML = `
+    <div class="card">
+      <h1>RIEPILOGO ORDINE</h1>
+      <div class="sub">Verifica e paga con carta</div>
+      ${S.items.map(i=>`<div class="row"><span class="k">${i.label}</span><span class="v">${eur(i.price)}</span></div>`).join('')}
+      ${t.physical ? `
+        <label>SPEDIZIONE</label>
+        <div class="ships">
+          ${Object.entries(SHIP).map(([k,v])=>`
+            <div class="ship ${S.ship===k?'on':''}" data-ship="${k}">
+              <b>${v.label}</b><span>${v.hint} &middot; ${v.price?eur(v.price):'GRATIS'}</span>
+            </div>`).join('')}
+        </div>` : ''}
+      ${CFG.PASS_FEE ? `<div class="row"><span class="k">Commissione pagamento carta (${CFG.FEE_PCT}%)</span><span class="v">${eur(t.fee)}</span></div>` : ''}
+      ${t.ship ? `<div class="row"><span class="k">Spedizione</span><span class="v">${eur(t.ship)}</span></div>` : ''}
+      <div class="row big"><span class="k">TOTALE</span><span class="v">${eur(t.total)}</span></div>
+
+      <label for="em">LA TUA EMAIL (per la ricevuta)</label>
+      <input id="em" type="email" placeholder="nome@email.com" value="${S.email}" autocomplete="email"/>
+
+      <button class="pay" id="go" ${S.busy?'disabled':''}>${S.busy?'APERTURA CHECKOUT...':'PAGA CON CARTA &middot; APPLE PAY &middot; GOOGLE PAY'}</button>
+
+      ${S.err ? `<div class="err">${S.err}</div>` : ''}
+
+      <div class="marks">
+        <span class="mark kyc">ZERO KYC</span>
+        <span class="mark">VISA</span><span class="mark">MASTERCARD</span>
+        <span class="mark">APPLE PAY</span><span class="mark">GOOGLE PAY</span>
+        <span class="mark">SEPA</span>
+      </div>
+      <p class="note">
+        Il pagamento viene elaborato su una pagina sicura PayGate.to e accreditato
+        istantaneamente in USDC sul wallet del venditore. Nessuna registrazione,
+        nessun documento da caricare. Alcuni provider possono chiedere una verifica
+        ID di ~2 minuti per ordini elevati.
+      </p>
+    </div>`;
+
+  app.querySelectorAll('[data-ship]').forEach(el=>{
+    el.onclick = ()=>{ S.ship = el.dataset.ship; render(); };
+  });
+  const em = $('#em');
+  em.oninput = ()=>{ S.email = em.value; };
+  $('#go').onclick = start;
+}
+
+async function start(){
+  S.err = '';
+  const email = (S.email||'').trim();
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){ S.err = 'Inserisci un indirizzo email valido.'; render(); return; }
+  if (!/^0x[0-9a-fA-F]{40}$/.test(CFG.WALLET)){ S.err = 'Configurazione: il wallet in CFG.WALLET non &egrave; valido.'; render(); return; }
+
+  S.busy = true; render();
+  const t = totals();
+  const c = code();
+
+  try {
+    const cb = location.origin + location.pathname + '?cb=1&o=' + encodeURIComponent(c);
+    const r = await fetch(base()+'/control/wallet.php?address='+encodeURIComponent(CFG.WALLET)+'&callback='+encodeURIComponent(cb));
+    if (!r.ok) throw new Error('wallet.php HTTP '+r.status);
+    const w = await r.json();
+    if (!w.address_in) throw new Error('risposta wallet.php senza address_in');
+
+    const pend = {code:c, email, amount:+t.total.toFixed(2), currency:CFG.CURRENCY,
+                  items:S.items, ipn_token:w.ipn_token||'', ts:Date.now()};
+    localStorage.setItem('ge-pending', JSON.stringify(pend));
+    S.code = c;
+
+    const u = new URL(CFG.CHECKOUT+'/pay.php');
+    u.searchParams.set('address', w.address_in);
+    u.searchParams.set('amount', t.total.toFixed(2));
+    u.searchParams.set('email', email);
+    u.searchParams.set('currency', CFG.CURRENCY);
+    u.searchParams.set('background', '#05060d');
+    u.searchParams.set('theme', '#ffb020');
+    u.searchParams.set('button', '#ffb020');
+    location.href = u.toString();
+
+  } catch(e){
+    S.busy = false;
+    S.err = 'Errore apertura checkout: '+e.message+'. Riprova o contatta l\'assistenza.';
+    render();
+  }
+}
+
+let timer = null;
+async function poll(){
+  const raw = localStorage.getItem('ge-pending');
+  if (!raw) return;
+  let p; try { p = JSON.parse(raw); } catch(_) { return; }
+  if (!p.ipn_token) return;
+  if (Date.now() - p.ts > 60*60*1000) return;
+
+  S.phase = 'wait'; S.code = p.code;
+  if (!$('#app').querySelector('.spin')) render();
+
+  try {
+    const r = await fetch(base()+'/control/payment-status.php?ipn_token='+encodeURIComponent(p.ipn_token));
+    const d = await r.json();
+    if (d && String(d.status).toLowerCase() === 'paid'){
+      const orders = JSON.parse(localStorage.getItem('ge-orders')||'[]');
+      orders.push({code:p.code, date:new Date().toISOString(), total:p.amount,
+                   currency:p.currency, email:p.email, items:p.items,
+                   method:'card', value_coin:d.value_coin, txid:d.txid_out});
+      localStorage.setItem('ge-orders', JSON.stringify(orders));
+      localStorage.removeItem('ge-pending');
+      clearInterval(timer); timer = null;
+      S.phase = 'done'; S.paid = p.amount; render();
+    }
+  } catch(_){}
+}
+
+S.items = buildItems();
+if (Q.get('ship')) S.ship = Q.get('ship');
+const pend = localStorage.getItem('ge-pending');
+if (pend){
+  try {
+    const p = JSON.parse(pend);
+    if (p && Date.now()-p.ts < 60*60*1000){ S.phase = 'wait'; S.code = p.code; }
+  } catch(_){}
+}
+render();
+if (S.phase === 'wait'){ poll(); timer = setInterval(poll, 6000); }
+else { poll(); }
+})();
+</script>
+</body>
+</html>
